@@ -2137,3 +2137,48 @@ footer p {
 .hidden-input {
   display: none !important;
 }
+
+/* --- Specialty Tag Picker (Checkboxes) --- */
+.tags-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 0 4px;
+}
+
+.tag-check {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  cursor: pointer;
+}
+
+.tag-check input[type="checkbox"] {
+  display: none;
+}
+
+.tag-check span {
+  display: inline-block;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted2, #aaa);
+  background: rgba(74, 222, 128, 0.04);
+  border: 1px solid rgba(74, 222, 128, 0.14);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  user-select: none;
+}
+
+.tag-check:hover span {
+  border-color: rgba(74, 222, 128, 0.35);
+  color: var(--text, #fff);
+}
+
+.tag-check input[type="checkbox"]:checked + span {
+  background: rgba(74, 222, 128, 0.15);
+  border-color: #4ade80;
+  color: #4ade80;
+  font-weight: 700;
+}

@@ -305,12 +305,13 @@ async function handleFormSubmit(e, type) {
     const price = form.querySelector('[name="price"]').value;
     const bio = form.querySelector('[name="bio"]').value;
     const lang = form.querySelector('[name="lang"]').value;
-    const tagsStr = form.querySelector('[name="tags"]').value;
+    const selectedTags = [...form.querySelectorAll('[name="tags_pick"]:checked')].map(el => el.value);
+    const tagsStr = selectedTags.join(', ');
 
     // Build mailto body
     const subject = encodeURIComponent(`[LevelUp Coach] Nueva solicitud de Coach - ${name}`);
     const body = encodeURIComponent(
-`Hola Facundo,
+      `Hola Facundo,
 
 Nueva solicitud de Coach recibida desde el sitio LevelUp Coach.
 
@@ -523,8 +524,7 @@ function openModal(type) {
           </div>
         </div>
 
-        <div class="modal-grid-two">
-          <div class="form-group">
+        <div class="form-group">
             <label>Idioma</label>
             <select name="lang" required>
               <option>Español</option>
@@ -532,9 +532,26 @@ function openModal(type) {
               <option>Portugués</option>
             </select>
           </div>
-          <div class="form-group">
-            <label>Especialidades (comas)</label>
-            <input type="text" name="tags" placeholder="Ej: Mid lane, Macro, Mental">
+
+        <div class="form-group">
+          <label>Especialidades</label>
+          <div class="tags-picker">
+            <label class="tag-check"><input type="checkbox" name="tags_pick" value="Mid Lane"><span>Mid Lane</span></label>
+            <label class="tag-check"><input type="checkbox" name="tags_pick" value="Top Lane"><span>Top Lane</span></label>
+            <label class="tag-check"><input type="checkbox" name="tags_pick" value="Jungle"><span>Jungle</span></label>
+            <label class="tag-check"><input type="checkbox" name="tags_pick" value="ADC"><span>ADC</span></label>
+            <label class="tag-check"><input type="checkbox" name="tags_pick" value="Support"><span>Support</span></label>
+            <label class="tag-check"><input type="checkbox" name="tags_pick" value="Mecánicas"><span>Mecánicas</span></label>
+            <label class="tag-check"><input type="checkbox" name="tags_pick" value="Macro Game"><span>Macro Game</span></label>
+            <label class="tag-check"><input type="checkbox" name="tags_pick" value="Wave Control"><span>Wave Control</span></label>
+            <label class="tag-check"><input type="checkbox" name="tags_pick" value="Roaming"><span>Roaming</span></label>
+            <label class="tag-check"><input type="checkbox" name="tags_pick" value="Teamfight"><span>Teamfight</span></label>
+            <label class="tag-check"><input type="checkbox" name="tags_pick" value="Posicionamiento"><span>Posicionamiento</span></label>
+            <label class="tag-check"><input type="checkbox" name="tags_pick" value="Farm / CS"><span>Farm / CS</span></label>
+            <label class="tag-check"><input type="checkbox" name="tags_pick" value="Visión"><span>Visión</span></label>
+            <label class="tag-check"><input type="checkbox" name="tags_pick" value="Draft / Picks"><span>Draft / Picks</span></label>
+            <label class="tag-check"><input type="checkbox" name="tags_pick" value="Mental Coach"><span>Mental Coach</span></label>
+            <label class="tag-check"><input type="checkbox" name="tags_pick" value="Análisis VOD"><span>Análisis VOD</span></label>
           </div>
         </div>
 
@@ -922,6 +939,36 @@ function initParticles() {
   animate();
 }
 
+/**
+ * Hero Image Slideshow
+ */
+const HERO_IMAGES = [
+  'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ahri_0.jpg',
+  'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jinx_0.jpg',
+  'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Akali_0.jpg',
+  'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Kaisa_0.jpg',
+  'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aurora_0.jpg',
+  'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Seraphine_0.jpg',
+];
+
+function initHeroSlideshow() {
+  const img = document.getElementById('heroImg');
+  if (!img) return;
+  let idx = 0;
+
+  // Preload all images
+  HERO_IMAGES.forEach(src => { const i = new Image(); i.src = src; });
+
+  setInterval(() => {
+    idx = (idx + 1) % HERO_IMAGES.length;
+    img.style.opacity = '0';
+    setTimeout(() => {
+      img.src = HERO_IMAGES[idx];
+      img.style.opacity = '1';
+    }, 800);
+  }, 5000);
+}
+
 // Initial render
 document.addEventListener('DOMContentLoaded', () => {
   renderCoaches();
@@ -933,4 +980,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initParticles();
   initMarquee();
   initNavScroll();
+  initHeroSlideshow();
 });

@@ -302,119 +302,55 @@ async function handleFormSubmit(e, type) {
     const name = form.querySelector('[name="name"]').value;
     const gameLabel = form.querySelector('[name="gameLabel"]').value;
     const rank = form.querySelector('[name="rank"]').value;
-    const price = parseInt(form.querySelector('[name="price"]').value);
+    const price = form.querySelector('[name="price"]').value;
     const bio = form.querySelector('[name="bio"]').value;
     const lang = form.querySelector('[name="lang"]').value;
-
-    // Process files
-    const avatarFile = form.querySelector('[name="avatar"]').files[0];
-    const bannerFile = form.querySelector('[name="banner"]').files[0];
-
-    let avatar = null;
-    let banner = null;
-
-    if (avatarFile) avatar = await toBase64(avatarFile);
-    if (bannerFile) banner = await toBase64(bannerFile);
-
     const tagsStr = form.querySelector('[name="tags"]').value;
-    const tags = tagsStr ? tagsStr.split(',').map(s => s.trim()) : ['Pro', gameLabel];
 
-    const gameMap = {
-      'League of Legends': 'lol',
-      'TFT': 'tft',
-      'Valorant': 'val',
-      'Fortnite': 'fn'
-    };
+    // Build mailto body
+    const subject = encodeURIComponent(`[LevelUp Coach] Nueva solicitud de Coach - ${name}`);
+    const body = encodeURIComponent(
+`Hola Facundo,
 
-    const rankIcons = {
-      'Challenger': '🏆',
-      'Grandmaster': '💎',
-      'Master': '👑',
-      'Diamond': '💠',
-      'Platinum': '🛡️',
-      'Radiant': '🔥'
-    };
+Nueva solicitud de Coach recibida desde el sitio LevelUp Coach.
 
-    const editId = form.dataset.editId ? Number(form.dataset.editId) : null;
+━━━━━━━━━━━━━━━━━━━━━━━━━
+  DATOS DEL COACH POSTULANTE
+━━━━━━━━━━━━━━━━━━━━━━━━━
 
-    if (editId) {
-      const existingCoach = ALL_COACHES.find(c => c.id === editId);
-      const updatedData = {
-        name,
-        game: gameMap[gameLabel] || 'lol',
-        gameLabel,
-        rank,
-        rankClass: `rank-${rank.split(' ')[0].toLowerCase()}`,
-        rankIcon: rankIcons[rank.split(' ')[0]] || '🎮',
-        price,
-        bio,
-        fullBio: bio,
-        lang,
-        avatar: avatar || (existingCoach ? existingCoach.avatar : 'https://cdn-icons-png.flaticon.com/512/10337/10337579.png'),
-        banner: banner || (existingCoach ? existingCoach.banner : 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=1000'),
-        tags
-      };
+Nombre / Nick:     ${name}
+Juego principal:   ${gameLabel}
+Rango / ELO:       ${rank}
+Precio por hora:   $${price} USD
+Idioma:            ${lang}
+Especialidades:    ${tagsStr || 'No especificadas'}
 
-      const indexStored = storedCoaches.findIndex(c => c.id === editId);
-      if (indexStored !== -1) {
-        storedCoaches[indexStored] = { ...storedCoaches[indexStored], ...updatedData };
-      } else {
-        const indexAll = ALL_COACHES.findIndex(c => c.id === editId);
-        if (indexAll !== -1) {
-          const staticCoach = ALL_COACHES[indexAll];
-          const newStoredEntry = { ...staticCoach, ...updatedData };
-          storedCoaches.push(newStoredEntry);
-        }
-      }
-      localStorage.setItem('luxury_coaches', JSON.stringify(storedCoaches));
-    } else {
-      const newCoach = {
-        id: Date.now(),
-        name,
-        game: gameMap[gameLabel] || 'lol',
-        gameLabel,
-        rank,
-        rankClass: `rank-${rank.split(' ')[0].toLowerCase()}`,
-        rankIcon: rankIcons[rank.split(' ')[0]] || '🎮',
-        price,
-        rating: 5.0,
-        reviews: 0,
-        bio,
-        fullBio: bio,
-        lang,
-        avatar,
-        banner,
-        tags,
-        reviewsList: []
-      };
-      storedCoaches.push(newCoach);
-      localStorage.setItem('luxury_coaches', JSON.stringify(storedCoaches));
-    }
+Descripción:
+${bio}
 
-    // Re-sync global state
-    ALL_COACHES = [...COACHES, ...storedCoaches];
+━━━━━━━━━━━━━━━━━━━━━━━━━
+Nota: Las imágenes de perfil (avatar y banner) deben ser enviadas por separado.
 
-    // Reset filter to 'all' so the user can see their new card immediately
-    currentGame = 'all';
-    document.querySelectorAll('.game-tab').forEach(b => {
-      if (b.textContent.trim().toLowerCase() === 'ver todos') b.classList.add('active');
-      else b.classList.remove('active');
-    });
+Enviado automáticamente desde LevelUp Coach.`
+    );
 
-    renderCoaches();
+    const mailtoLink = `mailto:Facundo.rodriguez.web@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = mailtoLink;
 
+    // Show success message
     modalContent.innerHTML = `
       <div style="text-align:center; padding: 40px 0;">
         <div style="width:60px; height:60px; background:var(--accent-glow); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; color:var(--accent);">
           <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
-        <div class="modal-title">${editId ? '¡Cambios guardados!' : '¡Perfil publicado!'}</div>
-        <p style="color:var(--muted2); margin-top:8px;">${editId ? 'La información del coach ha sido actualizada.' : 'Tu perfil ya es visible para todos los alumnos.'}</p>
+        <div class="modal-title">¡Solicitud enviada!</div>
+        <p style="color:var(--muted2); margin-top:8px; line-height:1.6;">Tu aplicación fue enviada por email para revisión.<br>Nos pondremos en contacto contigo pronto.</p>
         <button class="btn btn-primary" style="margin-top:24px; width:100%;" onclick="closeModal()">Continuar</button>
       </div>
     `;
     return;
   }
+
 
   if (type === 'profile') {
     const newUsername = form.querySelector('[name="username"]').value;

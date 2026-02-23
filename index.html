@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LevelUp Coach — Coaching Gaming Profesional</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body style="overflow: hidden;">
+    <!-- Cinematic Intro -->
+    <div id="intro">
+        <div class="intro-logo">
+            <div class="intro-logo-icon">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#052e16" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+            </div>
+            Level<span>Up</span> Coach
+        </div>
+        <div class="intro-tagline">Coaching Gaming Profesional</div>
+        <div class="intro-bar-wrap">
+            <div class="intro-bar"></div>
+        </div>
+    </div>
+
+    <!-- Particle Background -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Navigation -->
+    <nav id="mainNav">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#052e16" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polygon
+                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    </svg>
+                </div>
+                LevelUp <span style="color:var(--accent);">Coach</span>
+            </div>
+
+            <ul class="nav-links">
+                <li>
+                    <a href="#coaches-section">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                        Coaches
+                    </a>
+                </li>
+                <li>
+                    <a href="#como-funciona">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 8v4l3 3" />
+                        </svg>
+                        Cómo funciona
+                    </a>
+                </li>
+                <li>
+                    <a href="#ser-coach">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.9 9.18 19.79 19.79 0 0 1 1.88.4A2 2 0 0 1 3.86 0h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 7.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 14.92z" />
+                        </svg>
+                        Ser Coach
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-actions" id="navActions">
+                <button class="btn btn-ghost" onclick="openModal('login')">Iniciar sesión</button>
+                <button class="btn btn-primary" onclick="openModal('register')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="8.5" cy="7" r="4" />
+                        <line x1="20" y1="8" x2="20" y2="14" />
+                        <line x1="23" y1="11" x2="17" y2="11" />
+                    </svg>
+                    Crear cuenta
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-grid"></div>
+
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <div class="pulse-dot"></div>
+                    Plataforma gaming · +240 coaches
+                </div>
+                <h1 class="hero-title">
+                    <span class="line"><span class="line-inner">DOMINA</span></span>
+                    <span class="line"><span class="line-inner accent-text">EL JUEGO.</span></span>
+                    <span class="line"><span class="line-inner outline-text">SUBE EL ELO.</span></span>
+                </h1>
+                <p class="hero-subtitle">
+                    Conecta con coaches Challenger, Radiant y Top Global en LoL, TFT, Valorant y Fortnite. Sesiones personalizadas que transforman tu forma de jugar.
+                </p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary btn-lg"
+                        onclick="document.getElementById('coaches-section').scrollIntoView({behavior:'smooth'})">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                        Explorar coaches
+                    </button>
+                    <button class="btn btn-ghost btn-lg" onclick="openModal('coach')">Publicar mi perfil</button>
+                </div>
+
+                <div class="hero-trust">
+                    <div class="trust-item">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        Coaches verificados
+                    </div>
+                    <div class="trust-item">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        Pago seguro
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-visual-wrapper">
+                    <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jinx_0.jpg"
+                        alt="LevelUp Coach Hero" class="hero-img">
+
+                    <div class="float-card fc1">
+                        <div class="fc-label">Coaches activos</div>
+                        <div class="fc-value"><span class="counter" data-target="240">0</span>+</div>
+                        <div class="fc-sub">en 4 juegos</div>
+                    </div>
+                    <div class="float-card fc2">
+                        <div class="fc-label">Rating promedio</div>
+                        <div class="fc-value" style="color:var(--gold);">4.9 ★</div>
+                        <div class="fc-sub">12,400 reseñas</div>
+                    </div>
+                    <div class="float-card fc3">
+                        <div class="fc-label">Alumnos mejorados</div>
+                        <div class="fc-value"><span class="counter" data-target="12">0</span>K+</div>
+                        <div class="fc-sub">este año</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CINEMATIC INFOMARQUEE -->
+    <div class="marquee-section">
+        <div class="marquee-track">
+            <div class="marquee-content">
+                <!-- Set 1 -->
+                <div class="marquee-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <polygon
+                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    </svg>
+                    League of Legends <span class="m-val">80+ Coaches</span>
+                </div>
+                <div class="marquee-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                    Valorant <span class="m-val">60+ Coaches</span>
+                </div>
+                <div class="marquee-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <rect x="2" y="2" width="8" height="8" rx="1" />
+                        <rect x="14" y="2" width="8" height="8" rx="1" />
+                        <rect x="2" y="14" width="8" height="8" rx="1" />
+                        <rect x="14" y="14" width="8" height="8" rx="1" />
+                    </svg>
+                    TFT <span class="m-val">40+ Coaches</span>
+                </div>
+                <div class="marquee-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
+                    </svg>
+                    Fortnite <span class="m-val">60+ Coaches</span>
+                </div>
+                <div class="marquee-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    Coaches Verificados <span class="m-val">240+</span>
+                </div>
+                <div class="marquee-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                    Rating Promedio <span class="m-val">4.9 ★</span>
+                </div>
+                <!-- Set 2 (Duplicate for loop) -->
+                <div class="marquee-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <polygon
+                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    </svg>
+                    League of Legends <span class="m-val">80+ Coaches</span>
+                </div>
+                <div class="marquee-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                    Valorant <span class="m-val">60+ Coaches</span>
+                </div>
+                <div class="marquee-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <rect x="2" y="2" width="8" height="8" rx="1" />
+                        <rect x="14" y="2" width="8" height="8" rx="1" />
+                        <rect x="2" y="14" width="8" height="8" rx="1" />
+                        <rect x="14" y="14" width="8" height="8" rx="1" />
+                    </svg>
+                    TFT <span class="m-val">40+ Coaches</span>
+                </div>
+                <div class="marquee-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
+                    </svg>
+                    Fortnite <span class="m-val">60+ Coaches</span>
+                </div>
+                <div class="marquee-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    Coaches Verificados <span class="m-val">240+</span>
+                </div>
+                <div class="marquee-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                    Rating Promedio <span class="m-val">4.9 ★</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COACHES SECTION -->
+    <section class="section" id="coaches-section">
+        <div class="container">
+            <div class="section-tag">Coaches Verificados</div>
+            <div class="section-title">Encuentra tu mentor ideal</div>
+            <p class="section-desc">Todos verificados con rango demostrado. Compara perfiles, lee reseñas y reserva en
+                minutos.</p>
+
+            <div class="search-row">
+                <div class="search-box">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Nombre, rol, campeón..." oninput="renderCoaches()">
+                </div>
+                <select class="filter-select" id="langFilter" onchange="renderCoaches()">
+                    <option value="">Todos los idiomas</option>
+                    <option value="Español">🇪🇸 Español</option>
+                    <option value="Inglés">🇺🇸 Inglés</option>
+                    <option value="Portugués">🇧🇷 Portugués</option>
+                </select>
+                <select class="filter-select" id="sortFilter" onchange="renderCoaches()">
+                    <option value="rating">Mejor valorados</option>
+                    <option value="price-asc">Menor precio</option>
+                    <option value="price-desc">Mayor precio</option>
+                </select>
+            </div>
+
+            <div class="game-filters">
+                <button class="game-tab active" onclick="setGame(this,'all')">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="6" width="20" height="12" rx="2" />
+                        <path d="M12 12h.01" />
+                        <path d="M7 12h.01" />
+                        <path d="M17 12h.01" />
+                    </svg>
+                    Todos
+                </button>
+                <button class="game-tab" onclick="setGame(this,'lol')">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polygon
+                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    </svg>
+                    League of Legends
+                </button>
+                <button class="game-tab" onclick="setGame(this,'tft')">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="8" height="8" rx="1" />
+                        <rect x="14" y="2" width="8" height="8" rx="1" />
+                        <rect x="2" y="14" width="8" height="8" rx="1" />
+                        <rect x="14" y="14" width="8" height="8" rx="1" />
+                    </svg>
+                    TFT
+                </button>
+                <button class="game-tab" onclick="setGame(this,'val')">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                    Valorant
+                </button>
+                <button class="game-tab" onclick="setGame(this,'fn')">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
+                    </svg>
+                    Fortnite
+                </button>
+            </div>
+
+            <div class="coaches-grid" id="coachGrid"></div>
+        </div>
+    </section>
+
+    <!-- LoL FEATURE SECTION -->
+    <section class="lol-feature reveal">
+        <div class="container">
+            <div class="lol-imgs">
+                <img class="lol-img-main" src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yasuo_0.jpg"
+                    alt="Yasuo LoL"
+                    onerror="this.style.background='linear-gradient(135deg,#0d2010,#1a4025)'; this.removeAttribute('src');">
+                <img class="lol-img-secondary"
+                    src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Lux_0.jpg" alt="Lux LoL"
+                    onerror="this.style.background='linear-gradient(135deg,#1a2d0d,#2d4a1a)'; this.removeAttribute('src');">
+                <div class="lol-badge">
+                    <div class="lol-badge-icon">⚔️</div>
+                    <div class="lol-badge-text">
+                        <strong>League of Legends</strong>
+                        Coaches Challenger disponibles
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="section-tag">League of Legends</div>
+                <div class="section-title">Aprende de los<br>mejores del servidor</div>
+                <p class="section-desc">Desde mecánicas individuales hasta macro game. Nuestros coaches cubren cada
+                    aspecto
+                    del juego para que subas más rápido.</p>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                            </svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Análisis de VOD</strong>
+                            <span>Tu coach revisa tus partidas y detecta los errores que no ves en el calor del
+                                juego.</span>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                <circle cx="9" cy="7" r="4" />
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                            </svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Duo Coaching en vivo</strong>
+                            <span>Juega partidas rankeadas junto a tu coach con feedback en tiempo real.</span>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                            </svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Seguimiento de progreso</strong>
+                            <span>Sesiones estructuradas con objetivos claros. Ve cómo evoluciona tu LP semana a
+                                semana.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS SECTION -->
+    <section class="how-section reveal" id="como-funciona">
+        <div class="container">
+            <div class="section-tag">Proceso</div>
+            <div class="section-title">¿Cómo funciona?</div>
+            <p class="section-desc">Tres pasos simples para pasar de buscar a mejorar tu juego.</p>
+
+            <div class="steps-wrap">
+                <div class="step" data-n="01">
+                    <div class="step-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                    </div>
+                    <div class="step-title">Explora y compara</div>
+                    <p class="step-desc">Filtra por juego, rango, especialidad y precio. Lee reseñas reales de otros
+                        alumnos y elige al coach perfecto para tus objetivos.</p>
+                </div>
+                <div class="step" data-n="02">
+                    <div class="step-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                        </svg>
+                    </div>
+                    <div class="step-title">Reserva tu sesión</div>
+                    <p class="step-desc">Elige día y hora que más te acomoda. Escoge entre análisis VOD, duo coaching en
+                        vivo o revisión de gameplay.</p>
+                </div>
+                <div class="step" data-n="03">
+                    <div class="step-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                            <polyline points="17 6 23 6 23 12" />
+                        </svg>
+                    </div>
+                    <div class="step-title">Aprende y escala</div>
+                    <p class="step-desc">Recibe mentoring personalizado. La mayoría de alumnos sube al menos un rango en
+                        las primeras 5 sesiones.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BECOME COACH SECTION -->
+    <section class="become-section reveal" id="ser-coach">
+        <div class="container">
+            <div class="become-card">
+                <div style="position:relative; z-index:1;">
+                    <div class="section-tag" style="justify-content:center; margin-bottom:14px;">Para jugadores
+                        avanzados
+                    </div>
+                    <div class="section-title" style="max-width:500px; margin:0 auto 14px;">¿Eres bueno
+                        jugando?<br>Empieza
+                        a generar ingresos</div>
+                    <p class="section-desc" style="margin:0 auto; text-align:center; max-width:440px;">Publica tu perfil
+                        gratis, pon tu propio precio y comienza a enseñar a otros jugadores que quieren mejorar.</p>
+
+                    <div class="perks-row">
+                        <div class="perk">
+                            <div class="perk-icon-wrap">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="1" x2="12" y2="23" />
+                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                                </svg>
+                            </div>
+                            <div class="perk-label">Tú pones el precio</div>
+                        </div>
+                        <div class="perk">
+                            <div class="perk-icon-wrap">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                </svg>
+                            </div>
+                            <div class="perk-label">Horarios flexibles</div>
+                        </div>
+                        <div class="perk">
+                            <div class="perk-icon-wrap">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="2" y1="12" x2="22" y2="12" />
+                                    <path
+                                        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                                </svg>
+                            </div>
+                            <div class="perk-label">Alumnos de toda LatAm</div>
+                        </div>
+                        <div class="perk">
+                            <div class="perk-icon-wrap">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                </svg>
+                            </div>
+                            <div class="perk-label">Perfil verificado</div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-hero" onclick="openModal('coach')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="8.5" cy="7" r="4" />
+                            <line x1="20" y1="8" x2="20" y2="14" />
+                            <line x1="23" y1="11" x2="17" y2="11" />
+                        </svg>
+                        Publicar mi perfil — Es gratis
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#052e16" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polygon
+                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    </svg>
+                </div>
+                LevelUp <span style="color:var(--accent);">Coach</span>
+            </div>
+            <p>© 2024 LevelUp Coach · Para gamers que quieren mejorar</p>
+            <p>LoL · TFT · Valorant · Fortnite</p>
+        </div>
+    </footer>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="scripts.js"></script>
+</body>
+
+</html>

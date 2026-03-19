@@ -160,7 +160,7 @@ function handleCredentialResponse(response) {
     currentUser = found;
   }
 
-  localStorage.setItem('luxury_current', JSON.stringify(currentUser));
+  localStorage.setItem('luxury_logged_user', JSON.stringify(currentUser));
   closeModal();
   updateNavigationUI();
 
@@ -365,11 +365,17 @@ async function renderCoaches() {
  * Admin: Open Dashboard for Approvals
  */
 async function openAdminDashboard() {
+  if (!_supabase) {
+    alert("Supabase no está inicializado. Verifica las claves en scripts.js.");
+    return;
+  }
+  
   const modalContent = document.getElementById('modalContent');
   const modalOverlay = document.getElementById('modalOverlay');
   
-  openModal('login'); // Generic open cleanup
-  document.querySelector('.modal').className = 'modal modal-detailed'; // Large style
+  // Limpieza inicial y estilo amplio
+  modalOverlay.classList.add('open');
+  document.querySelector('.modal').className = 'modal modal-detailed'; 
 
   modalContent.innerHTML = `
     <div style="padding: 24px;">
@@ -534,10 +540,10 @@ async function editCoach(id) {
 
     // Use name attributes for more stable population
     if (form.querySelector('[name="name"]')) form.querySelector('[name="name"]').value = c.name;
-    if (form.querySelector('[name="gameLabel"]')) form.querySelector('[name="gameLabel"]').value = c.gameLabel;
+    if (form.querySelector('[name="gameLabel"]')) form.querySelector('[name="gameLabel"]').value = c.game_label || c.gameLabel || 'League of Legends';
     if (form.querySelector('[name="rank"]')) form.querySelector('[name="rank"]').value = c.rank;
     if (form.querySelector('[name="price"]')) form.querySelector('[name="price"]').value = c.price;
-    if (form.querySelector('[name="bio"]')) form.querySelector('[name="bio"]').value = (c.bio || c.fullBio || '');
+    if (form.querySelector('[name="bio"]')) form.querySelector('[name="bio"]').value = (c.full_bio || c.fullBio || c.bio || '');
     if (form.querySelector('[name="lang"]')) form.querySelector('[name="lang"]').value = c.lang || 'Español';
     if (form.querySelector('.avatar-editor img')) form.querySelector('.avatar-editor img').src = c.avatar || '';
     if (form.querySelector('.banner-editor img')) form.querySelector('.banner-editor img').src = c.banner || '';
@@ -752,7 +758,7 @@ async function handleFormSubmit(e, type) {
 
     const avatarImg = form.querySelector('.avatar-editor img');
     if (avatarImg && avatarImg.src.includes('cdn-icons-png.flaticon.com/512/10337/10337579.png')) {
-      alert('Por favor sube una imagen de perfil personalizada para continuar.');
+      alert('¡Atención! Debes subir una imagen de perfil personalizada (Avatar) para que tu perfil sea atractivo para los alumnos.');
       return;
     }
 
@@ -865,27 +871,37 @@ Enviado desde LevelUp Coach.`;
 
     if (form.dataset.editId) {
       // It's an EDIT (Admin only)
+      if (!_supabase) {
+        alert("Error: Supabase no inicializado.");
+        return;
+      }
       const { error } = await _supabase
         .from('coaches')
         .update(coachData)
         .eq('id', form.dataset.editId);
 
       if (error) {
-        alert("Error actualizando: " + error.message);
+        console.error("Supabase Update Error:", error);
+        alert("Error actualizando en base de datos: " + error.message);
         return;
       }
       renderCoaches();
     } else {
       // NEW POSTULATION
-      const { error } = await _supabase
-        .from('coaches')
-        .insert([coachData]);
+      if (!_supabase) {
+        alert("Atención: El sistema de base de datos no está conectado. Tu solicitud no se guardará en el panel, pero intentaremos enviarla por email.");
+      } else {
+        const { error } = await _supabase
+          .from('coaches')
+          .insert([coachData]);
 
-      if (error) {
-        alert("Error al postular: " + error.message);
-        return;
+        if (error) {
+          console.error("Supabase Insert Error:", error);
+          alert("Error al guardar tu perfil en la base de datos: " + error.message);
+          return;
+        }
+        console.log("Nueva postulación guardada en Supabase.");
       }
-      console.log("Nueva postulación guardada en Supabase.");
     }
 
     // Inicializar con tu Public Key
@@ -1242,7 +1258,7 @@ function updateNavigationUI() {
     desktopHtml = `
       <div class="user-profile" style="cursor:default;">
         <div class="user-info" onclick="openModal('profile')" style="cursor:pointer;">
-          <div class="user-avatar-small" style="background-image: url('${currentUser.avatar}'); background-size: cover;">
+          <div class="user-avatar-small" style="${currentUser.avatar ? `background-image: url('${currentUser.avatar}');` : ''} background-size: cover;">
             ${!currentUser.avatar ? currentUser.username[0].toUpperCase() : ''}
           </div>
           <span class="user-name">${currentUser.username}</span>
@@ -1259,7 +1275,7 @@ function updateNavigationUI() {
     `;
     mobileHtml = `
       <div class="user-profile" style="background:rgba(255,255,255,0.05); width:100%; justify-content:center; padding:15px; border-radius:15px; margin-bottom: 20px;">
-        <div class="user-avatar-small" style="width:40px; height:40px; font-size:18px; background-image: url('${currentUser.avatar}'); background-size: cover;">
+        <div class="user-avatar-small" style="width:40px; height:40px; font-size:18px; ${currentUser.avatar ? `background-image: url('${currentUser.avatar}');` : ''} background-size: cover;">
           ${!currentUser.avatar ? currentUser.username[0].toUpperCase() : ''}
         </div>
         <div class="user-name" style="display:block; font-size:16px;">${currentUser.username}</div>
@@ -1389,6 +1405,7 @@ function logout() {
   localStorage.removeItem('luxury_logged_user');
   updateNavigationUI();
 }
+window.logout = logout;
 
 
 /**
